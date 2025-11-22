@@ -13,20 +13,20 @@ function Search() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let query = username;
-    if (location) query += `+location:${location}`;
-    if (minRepos) query += `+repos:>${minRepos}`;
-
     try {
       setLoading(true);
       setError(false);
       setSearchResults([]);
 
-      const results = await fetchUserData(query);
-      setSearchResults(results.items);
-    } catch (err) {
+      // Pass arguments individually
+      const results = await fetchUserData(username, location, minRepos);
+      setSearchResults(results); // already items[]
+    } 
+    catch (err) {
       setError(true);
-    } finally {
+      console.error(err);
+    }
+    finally {
       setLoading(false);
     }
   };
