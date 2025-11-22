@@ -6,6 +6,7 @@ function Search() {
   const [username, setUsername] = useState("");
   const [location, setLocation] = useState("");
   const [minRepos, setMinRepos] = useState("");
+
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -13,19 +14,18 @@ function Search() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Build GitHub query correctly
     let query = username;
     if (location) query += "+location:" + location;
     if (minRepos) query += "+repos:>" + minRepos;
-
-    const url = "https://api.github.com/users/{username}" + query;
 
     try {
       setLoading(true);
       setError(false);
       setSearchResults([]);
 
-      const results = await fetchUserData(url);
-      setSearchResults(results.items);
+      const results = await fetchUserData(query);
+      setSearchResults(results.items); // GitHub returns items[]
     } catch (err) {
       setError(true);
     } finally {
@@ -36,6 +36,7 @@ function Search() {
   return (
     <div className="w-full max-w-xl mx-auto mt-10 p-6 bg-white shadow-md rounded-xl">
       <h2 className="text-2xl font-semibold mb-4">GitHub User Search</h2>
+
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <input
           type="text"
@@ -44,6 +45,7 @@ function Search() {
           onChange={(e) => setUsername(e.target.value)}
           className="border p-3 rounded-md outline-none focus:ring focus:ring-blue-300"
         />
+
         <input
           type="text"
           placeholder="Enter location (optional)"
@@ -51,6 +53,7 @@ function Search() {
           onChange={(e) => setLocation(e.target.value)}
           className="border p-3 rounded-md outline-none focus:ring focus:ring-blue-300"
         />
+
         <input
           type="number"
           placeholder="Minimum repositories (optional)"
@@ -58,6 +61,7 @@ function Search() {
           onChange={(e) => setMinRepos(e.target.value)}
           className="border p-3 rounded-md outline-none focus:ring focus:ring-blue-300"
         />
+
         <button
           type="submit"
           className="bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700 transition"
@@ -68,14 +72,12 @@ function Search() {
 
       <div className="mt-6">
         {loading && <p className="text-gray-500">Loading...</p>}
-        {error && <p className="text-red-500">"Looks like we cant find the user"</p>}
+        {error && <p className="text-red-500">Looks like we cant find the user</p>}
+
         {searchResults.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
             {searchResults.map((user) => (
-              <div
-                key={user.id}
-                className="border p-4 rounded-md flex flex-col items-center"
-              >
+              <div key={user.id} className="border p-4 rounded-md flex flex-col items-center">
                 <img
                   src={user.avatar_url}
                   alt={user.login}
