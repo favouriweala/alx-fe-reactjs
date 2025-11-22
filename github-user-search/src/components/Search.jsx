@@ -17,7 +17,7 @@ function Search() {
     if (location) query += "+location:" + location;
     if (minRepos) query += "+repos:>" + minRepos;
 
-    const url = "https://api.github.com/search/users?q=" + query;
+    const url = "https://api.github.com/users/{username}" + query;
 
     try {
       setLoading(true);
@@ -68,7 +68,7 @@ function Search() {
 
       <div className="mt-6">
         {loading && <p className="text-gray-500">Loading...</p>}
-        {error && <p className="text-red-500">Could not fetch users</p>}
+        {error && <p className="text-red-500">"Looks like we cant find the user"</p>}
         {searchResults.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
             {searchResults.map((user) => (
