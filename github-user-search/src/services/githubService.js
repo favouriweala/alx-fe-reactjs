@@ -8,7 +8,7 @@ const fetchUserData = async (query) => {
 
   try {
     const response = await axios.get(url);
-    return response.data; 
+    return response.data;   // Return full data object (contains items[])
   } catch (error) {
     console.error("Error fetching GitHub users:", error);
     throw error;
