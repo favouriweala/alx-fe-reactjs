@@ -1,11 +1,10 @@
-// src/components/Search.jsx
 import { useState } from "react";
 import fetchUserData from "../services/githubService";
 
 function Search() {
   const [username, setUsername] = useState("");
-  const [location, setLocation] = useState("");
-  const [minRepos, setMinRepos] = useState("");
+  const [location, setLocation] = useState("");   
+  const [minRepos, setMinRepos] = useState("");   
 
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -14,10 +13,9 @@ function Search() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Build GitHub search query
     let query = username;
-    if (location) query += "+location:" + location;
-    if (minRepos) query += "+repos:>" + minRepos;
+    if (location) query += `+location:${location}`;
+    if (minRepos) query += `+repos:>${minRepos}`;
 
     try {
       setLoading(true);
@@ -25,8 +23,6 @@ function Search() {
       setSearchResults([]);
 
       const results = await fetchUserData(query);
-
-      // GitHub returns: { items: [] }
       setSearchResults(results.items);
     } catch (err) {
       setError(true);
@@ -74,17 +70,12 @@ function Search() {
 
       <div className="mt-6">
         {loading && <p className="text-gray-500">Loading...</p>}
-
-        {/* ALX requires EXACTLY this message */}
         {error && <p className="text-red-500">Looks like we cant find the user</p>}
 
         {searchResults.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
             {searchResults.map((user) => (
-              <div
-                key={user.id}
-                className="border p-4 rounded-md flex flex-col items-center"
-              >
+              <div key={user.id} className="border p-4 rounded-md flex flex-col items-center">
                 <img
                   src={user.avatar_url}
                   alt={user.login}
