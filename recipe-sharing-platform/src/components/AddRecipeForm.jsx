@@ -23,13 +23,11 @@ const AddRecipeForm = () => {
     if (!steps.trim()) formErrors.steps = "Preparation steps are required";
 
     setErrors(formErrors);
-
     return Object.keys(formErrors).length === 0;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (!validateForm()) return;
 
     const newRecipe = {
@@ -39,7 +37,6 @@ const AddRecipeForm = () => {
     };
 
     console.log("New Recipe Submitted:", newRecipe);
-
     alert("Recipe submitted successfully!");
 
     setTitle("");
@@ -49,15 +46,17 @@ const AddRecipeForm = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">Add New Recipe</h1>
+    <div className="max-w-3xl mx-auto p-6 md:p-10"> {/* <-- md added */}
+      <h1 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800">
+        Add New Recipe
+      </h1>
 
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow-lg rounded-xl p-6 space-y-6"
+        className="bg-white shadow-lg rounded-xl p-6 md:p-8 space-y-6"  /* <-- md added */
       >
         {/* TITLE */}
-        <div>
+        <div className="md:flex md:flex-col"> {/* <-- responsive wrapper */}
           <label className="block font-semibold mb-2">Recipe Title</label>
           <input
             type="text"
@@ -72,7 +71,7 @@ const AddRecipeForm = () => {
         </div>
 
         {/* INGREDIENTS */}
-        <div>
+        <div className="md:flex md:flex-col"> {/* <-- md added */}
           <label className="block font-semibold mb-2">Ingredients</label>
           <textarea
             value={ingredients}
@@ -86,7 +85,7 @@ const AddRecipeForm = () => {
         </div>
 
         {/* STEPS */}
-        <div>
+        <div className="md:flex md:flex-col"> {/* <-- md added */}
           <label className="block font-semibold mb-2">Preparation Steps</label>
           <textarea
             value={steps}
@@ -102,7 +101,7 @@ const AddRecipeForm = () => {
         {/* SUBMIT BUTTON */}
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition"
+          className="w-full md:w-1/2 mx-auto bg-blue-600 text-white py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition block"  /* <-- md added */
         >
           Submit Recipe
         </button>
