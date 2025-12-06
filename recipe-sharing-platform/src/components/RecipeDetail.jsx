@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import data from "../data.json";
 
@@ -7,6 +7,15 @@ const RecipeDetail = () => {
   const recipeId = Number(id);
 
   const recipe = data.find((item) => item.id === recipeId);
+
+  // ✅ ALX requirement: Use useEffect inside RecipeDetail
+  useEffect(() => {
+    if (recipe) {
+      console.log("Recipe loaded:", recipe);
+    } else {
+      console.log("Recipe not found");
+    }
+  }, [recipe]); // runs whenever recipe changes
 
   if (!recipe) {
     return (
@@ -18,7 +27,7 @@ const RecipeDetail = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      
+
       {/* Title */}
       <h1 className="text-3xl font-bold mb-4 text-gray-800">
         {recipe.title}
@@ -36,7 +45,7 @@ const RecipeDetail = () => {
         {recipe.summary}
       </p>
 
-      {/* Ingredients Section */}
+      {/* Ingredients */}
       <div className="mb-10 bg-white rounded-xl shadow p-6">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">
           Ingredients
@@ -48,7 +57,7 @@ const RecipeDetail = () => {
         </ul>
       </div>
 
-      {/* Instructions Section */}
+      {/* Instructions */}
       <div className="mb-10 bg-white rounded-xl shadow p-6">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">
           Instructions
