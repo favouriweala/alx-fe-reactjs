@@ -1,40 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import data from '../data.json';
-
-type Recipe = {
-  id: number;
-  title: string;
-  summary: string;
-  image: string;
-};
+import React from "react";
+import { Link } from "react-router-dom";   // ✅ Required import
+import data from "../data.json";
 
 const HomePage = () => {
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
-
-  useEffect(() => {
-    setRecipes(data);
-  }, []);
-
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-4xl font-bold mb-8 text-center">Recipes</h1>
+    <div className="max-w-6xl mx-auto p-6">
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">
+        Recipe List
+      </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 place-items-center">
-        {recipes.map((item) => (
-          <div
-            key={item.id}
-            className="bg-white w-full max-w-sm rounded-xl shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300 overflow-hidden">
+      {/* Recipe Cards Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {data.map((recipe) => (
+          <Link
+            key={recipe.id}
+            to={`/recipe/${recipe.id}`} // ✅ Required navigation
+            className="block bg-white rounded-xl shadow hover:shadow-lg transition p-4"
+          >
+            {/* Image */}
             <img
-              src={item.image}
-              alt={item.title}
-              className="w-full h-52 object-cover"
+              src={recipe.image}
+              alt={recipe.title}
+              className="w-full h-40 object-cover rounded-lg mb-4"
             />
 
-            <div className="p-5">
-              <h2 className="text-2xl font-semibold mb-2">{item.title}</h2>
-              <p className="text-gray-600">{item.summary}</p>
-            </div>
-          </div>
+            {/* Title */}
+            <h2 className="text-xl font-semibold text-gray-800 mb-2">
+              {recipe.title}
+            </h2>
+
+            {/* Summary */}
+            <p className="text-gray-600 text-sm line-clamp-3">
+              {recipe.summary}
+            </p>
+          </Link>
         ))}
       </div>
     </div>
@@ -42,3 +41,4 @@ const HomePage = () => {
 };
 
 export default HomePage;
+d
